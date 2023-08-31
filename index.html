@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>griddy</title>
+    <link rel= "stylesheet" href="style.css" 
+</head>
+<body>
+  <button class = 'pop'>griddy</button>
+  <div class = 'main'></div>
+
+<script>
+  const main = document.querySelector('.main');
+  
+
+  originalGrid();
+  function originalGrid(gridSize = 8) {
+    for (let i = 0; i < (gridSize**2); i++) {
+      const div = document.createElement('div');
+      div.classList.add('sub');
+      main.appendChild(div);
+    }
+  }
+  let mouseDown = false
+  document.body.onmousedown = () => (mouseDown = true)
+  document.body.onmouseup = () => (mouseDown = false)
+
+  let subList = document.querySelectorAll('.sub');
+
+  subList.forEach((sub) => {
+    sub.addEventListener('mouseover', () => {
+    if (mouseDown) {
+    sub.style.backgroundColor = generateRandomColor();}
+    })
+  })
+  
+  
+  const pop = document.querySelector('.pop')
+  pop.addEventListener('click', () => {
+    let newGridSize = prompt('What size you want?');
+    if (newGridSize > 100) {
+        alert('Cannot be more than 100');
+    
+    } else {
+      subList.forEach((sub) => {
+        sub.remove();
+      })
+      originalGrid(newGridSize);
+      subList = document.querySelectorAll('.sub');
+      subList.forEach((sub) => {
+        sub.style.width = `${960 / newGridSize}px`;
+        sub.style.height = `${960 / newGridSize}px`;
+        })
+        subList.forEach((sub) => {
+        sub.addEventListener('mouseover', () => {
+        if (mouseDown)
+        sub.style.backgroundColor = generateRandomColor();
+            })
+
+        })
+    }
+})
+
+function generateRandomColor(){
+    let maxVal = 0xFFFFFF; // 16777215
+    let randomNumber = Math.random() * maxVal; 
+    randomNumber = Math.floor(randomNumber);
+    randomNumber = randomNumber.toString(16);
+    let randColor = randomNumber.padStart(6, 0);   
+    return `#${randColor.toUpperCase()}`
+}
+
+    
+  
+  
+
+</script>
+</body>
+</html>
